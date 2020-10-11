@@ -1,15 +1,22 @@
 import React , {useState} from 'react';
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import {MyContextConsumer} from '../../Context';
 
 export const PreviewModal = ({ output }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
   return(
-    <>
-    <Button as="a" variant="primary" onClick={handleShow} >
+    <MyContextConsumer>
+    {(value) =>
+    {
+      return(
+        <>
+        <Button as="a" variant="primary" onClick={handleShow} >
           Preview message
         </Button>
     <Modal show={show} onHide={handleClose}>
@@ -18,21 +25,42 @@ export const PreviewModal = ({ output }) => {
             Preview Modal
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body >
-          <div dangerouslySetInnerHTML={{ __html: output }}></div>
-        </Modal.Body>
-        <Modal.Footer>
-        <Button variant="secondary" as="a" href="/" >Done</Button>
-    <Button variant="primary" onClick={handleClose}>Close</Button>
-    </Modal.Footer>
+        <Form>
+              <Form.Group   controlId="type">
+                <Form.Label>Type</Form.Label>
+                <Form.Control onChange={value.onChange} className="col-md-5" name="type" as="select">
+                  <option value="Food & Health">Food & Health</option>
+                  <option value="Technology & Business">Technology & Business</option>
+                  <option value="Places">Places</option>
+                  <option value="Art">Art</option>
+                  <option value="Media">Media</option>
+                  <option value="Others">Others</option>
+                </Form.Control>
+              </Form.Group>
+            </Form>
+          <Modal.Body>
+            <div dangerouslySetInnerHTML={{ __html: output }}></div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button type="submit" variant="secondary" onClick={value.onBlogPost} >Done</Button>
+            <Button variant="primary" onClick={handleClose}>Close</Button>
+          </Modal.Footer>
+        
+        
+        
   </Modal>
   </>
+      )
+      
+    }
+    }
+  </MyContextConsumer>
   )
 }
 
   
   
-//   <div className="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-hidden="true">
+{/* //   <div className="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-hidden="true">
 //     <div className="modal-dialog" role="document">
 //       <div className="modal-content">
 //         <div className="modal-header">
@@ -51,5 +79,5 @@ export const PreviewModal = ({ output }) => {
 //         </div>
 //       </div>
 //     </div>
-//   </div>
+//   </div> */}
 

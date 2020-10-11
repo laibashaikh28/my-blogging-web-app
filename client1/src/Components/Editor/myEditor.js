@@ -5,42 +5,34 @@ import draftToHtml from 'draftjs-to-html';
 import { Editor } from 'react-draft-wysiwyg';
 import { PreviewModal } from './previewModal';
 import Button from 'react-bootstrap/Button'
+import {MyContextConsumer} from '../../Context';
 
 const getHtml = editorState => draftToHtml(convertToRaw(editorState.getCurrentContent()));
 
 class MyEditor extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      editorState: EditorState.createEmpty()
-    };
-  }
-
-  onEditorStateChange = editorState => {
-    this.setState({
-      editorState 
-    });
-  };
 
   render() {
-    const { editorState } = this.state;
 
     return (
+      <MyContextConsumer>{(value)=>{
+        return(
       <div>
         <Editor
-          editorState={editorState}
+          editorState={value.editorState}
           wrapperClassName="rich-editor demo-wrapper"
           editorClassName="demo-editor"
-          onEditorStateChange={this.onEditorStateChange}
-          placeholder="The message goes here..."
+          onEditorStateChange={value.onEditorStateChange}
+          placeholder="Write your blog here..."
         />
         <h4>Underlying HTML</h4>
-        <div className="html-view">
-          {getHtml(editorState)}
+        <div  className="html-view" >
+          {getHtml(value.editorState)}
         </div>
         
-        <PreviewModal output={getHtml(editorState)} />
+        <PreviewModal output={getHtml(value.editorState)} />
       </div>
+        )}}
+      </MyContextConsumer>
     );
   }
 }

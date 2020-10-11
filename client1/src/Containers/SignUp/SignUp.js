@@ -2,9 +2,14 @@ import React from "react";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
+import {MyContextConsumer} from '../../Context';
 import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBBtn, MDBIcon, MDBModalFooter } from 'mdbreact';
 
 const SignUp = () => {
+  return(
+    <MyContextConsumer>
+    {(value) =>
+    {
   return (
     <MDBContainer>
       <MDBRow>
@@ -68,6 +73,8 @@ const SignUp = () => {
         </MDBCol>
       </MDBRow>
     </MDBContainer>
+  )}}
+  </MyContextConsumer>
   )};
 
 export default SignUp;
